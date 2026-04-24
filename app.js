@@ -351,6 +351,8 @@ function autoSave() {
     collect();
     await saveWeek(currentKey);
     dot.className = 'autosave-dot'; txt.textContent = 'All changes saved';
+    checkBehaviouralAlerts();
+
   }, 800);
 }
 
@@ -446,6 +448,7 @@ function loadWeek() {
   loadRef(w);
   updatePlan();
   updateAllSymbols();
+  checkBehaviouralAlerts();
 }
 
 async function changeWeek(dir) {
