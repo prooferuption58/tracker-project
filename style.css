@@ -220,3 +220,55 @@ canvas { max-height: 220px; }
 
 .hidden {display: none !important;}
 select{appearance: none; -webkit-appearance: none;}
+
+/* --- THE FINAL ALIGNMENT FIX --- */
+.tabs {
+    display: flex;
+    justify-content: center; /* Horizontally centered */
+    background: #111;
+    border-bottom: 1px solid var(--border);
+    height: 54px;            /* FIXED HEIGHT forces a clear horizontal middle */
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.tab {
+    display: flex;
+    align-items: center;   
+    height: 100%;
+    padding: 0 15px;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.tab svg, .tab i {
+    width: 18px;
+    height: 18px;
+    display: block;
+    color: var(--gold);
+    flex-shrink: 0;
+}
+
+.tab span {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    display: block;
+    margin-top: 1px;
+    white-space: nowrap;
+}
+
+.tab.active {
+    color: var(--white);
+    border-bottom-color: var(--gold);
+    background: rgba(201, 169, 110, 0.05);
+}
+
+.tab.active svg {
+    color: var(--white);
+}
