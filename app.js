@@ -554,6 +554,68 @@ function checkNoBuyViolations() {
   const activeDays = [...document.querySelectorAll('.day-btn.active')].map(b => b.dataset.day);
   let violated = false;
 
+  unction checkBehavioralAlerts() {
+  const w = wData();
+  const total  = gv('total-budget');
+  const spent  = parseLogTotal();
+  const savings = gv('budget-savings');
+
+  // --- Alert 1: Overspending ---
+  const overspendEl = g('alert-overspend');
+  if (overspendEl) {
+    if (total > 0 && spent > total) {
+      overspendEl.textContent = '⚠️ You\'ve gone over your weekly budget. Let\'s pause and reflect before spending more.';
+      overspendEl.classList.remove('hidden');
+    } else {
+      overspendEl.classList.add('hidden');
+    }
+  }
+
+  // --- Alert 2: No savings goal set ---
+  const savingsEl = g('alert-no-savings');
+  if (savingsEl) {
+    if (total > 0 && savings === 0) {
+      savingsEl.textContent = '💡 You haven\'t set a savings goal this week. Even a small amount counts.';
+      savingsEl.classList.remove('hidden');
+    } else {
+      savingsEl.classList.add('hidden');
+    }
+  }
+
+  // --- Alert 3: Spent every single day ---
+  const everyDayEl = g('alert-every-day');
+  if (everyDayEl) {
+    const daysWithSpending = DAYS.filter(day => {
+      const items = w.log[day] || [];
+      return items.some(i => (parseFloat(i.amount) || 0) > 0);
+    });
+    if (daysWithSpending.length === 7) {
+      everyDayEl.textContent = '📅 You spent every single day this week. Consider setting a no-buy day next week.';
+      everyDayEl.classList.remove('hidden');
+    } else {
+      everyDayEl.classList.add('hidden');
+    }
+  }
+
+  // --- Alert 4: High impulse spending (over 50%) ---
+  const impulseEl = g('alert-high-impulse');
+  if (impulseEl) {
+    let impulseTotal = 0;
+    DAYS.forEach(day => {
+      (w.log[day] || []).forEach(item => {
+        if (item.type === 'impulse') impulseTotal += parseFloat(item.amount) || 0;
+      });
+    });
+    const impulsePct = spent > 0 ? (impulseTotal / spent) * 100 : 0;
+    if (spent > 0 && impulsePct > 50) {
+      impulseEl.textContent = `🛑 ${Math.round(impulsePct)}% of your spending this week was impulse. Worth reflecting on in your journal.`;
+      impulseEl.classList.remove('hidden');
+    } else {
+      impulseEl.classList.add('hidden');
+    }
+  }
+}
+
   DAYS.forEach((day, idx) => {
     const shortDay = DAYS_SHORT[idx];
     const items = w.log[day] || [];
