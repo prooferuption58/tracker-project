@@ -272,3 +272,149 @@ select{appearance: none; -webkit-appearance: none;}
 .tab.active svg {
     color: var(--white);
 }
+/* ── RESPONSIVE — add these at the very bottom of style.css ── */
+
+/* Base fix for ALL devices — prevents horizontal overflow */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* ── LARGE SCREENS (desktops 1200px+) ── */
+@media (min-width: 1200px) {
+  .main { max-width: 780px; }
+  .auth-wrap { max-width: 460px; }
+}
+
+/* ── MEDIUM SCREENS (tablets 768px - 1199px) ── */
+@media (max-width: 1199px) {
+  .main { max-width: 600px; padding: 16px 20px 60px; }
+  .header-title { font-size: 18px; }
+}
+
+/* ── SMALL TABLETS (600px - 767px) ── */
+@media (max-width: 767px) {
+  .main { padding: 14px 14px 60px; }
+  .header { padding: 12px 14px; }
+  .header-title { font-size: 16px; }
+  .header-tag { font-size: 8px; }
+  .header-sub { font-size: 9px; }
+  .currency-label { display: none; }
+  #currency-select { font-size: 10px; padding: 4px 6px; }
+  .tab { font-size: 10px; padding: 12px 4px; min-width: 60px; }
+  .card { padding: 16px; }
+  .input-field { width: 120px; }
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-num { font-size: 20px; }
+}
+
+/* ── MOBILE (max 599px) — most important ── */
+@media (max-width: 599px) {
+  .main { padding: 12px 12px 70px; }
+
+  /* Header */
+  .header { padding: 10px 12px; flex-wrap: nowrap; gap: 8px; }
+  .header-title { font-size: 15px; }
+  .header-tag { font-size: 8px; letter-spacing: 2px; }
+  .header-sub { font-size: 9px; }
+  .header-right { gap: 6px; flex-shrink: 0; }
+  .currency-label { display: none; }
+  #currency-select { font-size: 10px; padding: 4px 5px; max-width: 80px; }
+  .logout-top-btn { width: 28px; height: 28px; }
+  .user-avatar { width: 30px; height: 30px; font-size: 12px; }
+  .user-dropdown { right: 8px; min-width: 170px; }
+
+  /* Tabs */
+  .tab { font-size: 9px; padding: 11px 3px; min-width: 52px; }
+
+  /* Week bar */
+  .week-bar { padding: 10px 12px; }
+  .week-label { font-size: 13px; }
+  .week-nav { width: 28px; height: 28px; font-size: 16px; }
+
+  /* Cards */
+  .card { padding: 14px 12px; border-radius: 12px; }
+  .card-title { font-size: 15px; }
+  .card-sub { font-size: 10px; margin-bottom: 14px; }
+
+  /* Plan inputs */
+  .input-row { gap: 6px; }
+  .input-label { font-size: 11px; }
+  .input-field { width: 110px; font-size: 12px; padding: 7px 10px; }
+  .input-field.with-prefix { padding-left: 22px; }
+  .prefix { font-size: 11px; left: 8px; }
+
+  /* Budget summary */
+  .budget-row { font-size: 11px; }
+  .budget-row.total { font-size: 12px; }
+
+  /* Log tab */
+  .log-day-label { font-size: 13px; }
+  .log-item-row { flex-wrap: wrap; gap: 6px; padding: 8px 10px; }
+  .log-item-name { width: 100%; font-size: 12px; }
+  .log-item-amt { width: 80px; font-size: 12px; }
+  .log-item-select { font-size: 11px; }
+  .log-item-mood { width: 52px; font-size: 10px; }
+  .log-total-bar span:last-child { font-size: 16px; }
+
+  /* No-buy days */
+  .days-grid { gap: 4px; }
+  .day-btn { padding: 7px 2px; font-size: 9px; border-radius: 6px; }
+
+  /* Urge */
+  .urge-entry { padding: 12px 12px 8px; }
+  .urge-entry input, .urge-entry select { font-size: 12px; }
+
+  /* Reflect */
+  .reflection-q { font-size: 11px; }
+  .reflection-a { font-size: 12px; min-height: 60px; }
+  .dot { width: 7px; height: 7px; }
+
+  /* Stats */
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-card { padding: 14px 10px; border-radius: 12px; }
+  .stat-num { font-size: 18px; }
+  .stat-label { font-size: 8px; letter-spacing: 0.5px; }
+  .stat-hint { font-size: 9px; }
+  .chart-wrap { padding: 14px; }
+  .chart-title { font-size: 13px; }
+
+  /* Monthly */
+  .month-card { padding: 12px 14px; }
+  .month-card-label { font-size: 14px; }
+  .month-card-sub { font-size: 10px; }
+  .month-card-amt { font-size: 16px; }
+
+  /* Auth */
+  #auth-screen { padding: 16px 12px; }
+  .auth-card { padding: 24px 18px; border-radius: 16px; }
+  .auth-title { font-size: 26px; }
+  .auth-card-title { font-size: 18px; }
+  .auth-input { padding: 11px 12px; font-size: 13px; }
+  .auth-btn { padding: 12px; font-size: 13px; }
+  .google-btn { padding: 10px; font-size: 12px; }
+
+  /* Nav buttons */
+  .nav-btn { padding: 9px 16px; font-size: 11px; }
+  .tab-nav { margin-top: 6px; }
+
+  /* Footer */
+  .footer { padding: 20px 16px 28px; }
+  .footer-name { font-size: 14px; }
+  .footer-quote { font-size: 11px; max-width: 240px; }
+}
+
+/* ── VERY SMALL PHONES (max 380px — e.g. iPhone SE) ── */
+@media (max-width: 380px) {
+  .header-title { font-size: 13px; }
+  #currency-select { max-width: 70px; font-size: 9px; }
+  .tab { font-size: 8px; min-width: 46px; padding: 10px 2px; }
+  .week-label { font-size: 12px; }
+  .card { padding: 12px 10px; }
+  .input-field { width: 100px; }
+  .stat-num { font-size: 16px; }
+  .auth-title { font-size: 22px; }
+  .auth-card { padding: 20px 14px; }
+  .log-item-mood { display: none; }
+}
