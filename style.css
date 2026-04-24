@@ -119,6 +119,30 @@ body { background: var(--black); color: var(--white); font-family: var(--font-bo
 .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg,var(--gold),var(--gold-light)); transition: width 0.5s; max-width: 100%; }
 .progress-fill.danger { background: linear-gradient(90deg,#c0392b,#e74c3c); }
 .plan-tip { font-size: 11px; color: var(--muted); margin-top: 12px; font-style: italic; }
+/* 
+  PASTE this anywhere in your style.css
+  (suggestion: right after your .plan-tip style)
+*/
+
+.behavior-alert {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  font-style: italic;
+  background: rgba(201, 169, 110, 0.07);
+  border-left: 2px solid rgba(201, 169, 110, 0.35);
+  color: #b89458;
+  transition: all 0.3s ease;
+}
+
+/* Overspend gets a red tone instead of gold */
+#alert-overspend {
+  background: rgba(192, 57, 43, 0.08);
+  border-left-color: rgba(192, 57, 43, 0.35);
+  color: #c06b5e;
+}
 
 /* LOG TAB — day sections */
 .log-day-section { margin-bottom: 18px; }
