@@ -10,11 +10,9 @@ const firebaseConfig = {
   measurementId: "G-7Y8KGTTNB2"
 };
 firebase.initializeApp(firebaseConfig);
-//firebase.analytics();
 const auth = firebase.auth();
 const db   = firebase.firestore();
 
-// ── CURRENCY MAP ──────────────────────────────────────────────────────────────
 const CURRENCY_SYMBOLS = {
   NGN:'₦',USD:'$',EUR:'€',GBP:'£',JPY:'¥',CNY:'¥',CAD:'C$',AUD:'A$',CHF:'Fr',INR:'₹',
   ZAR:'R',GHS:'₵',KES:'KSh',EGP:'E£',MAD:'MAD',TZS:'TSh',UGX:'USh',ETB:'Br',XOF:'CFA',XAF:'CFA',
@@ -22,13 +20,11 @@ const CURRENCY_SYMBOLS = {
   BRL:'R$',MXN:'MX$',SGD:'S$',HKD:'HK$',TRY:'₺',SAR:'﷼',AED:'د.إ',KRW:'₩',RUB:'₽',IDR:'Rp'
 };
 
-// ── CONSTANTS ─────────────────────────────────────────────────────────────────
 const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 const DAYS_SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const MON  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const MON_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
 let DB          = {};
 let currentKey  = '';
 let slideIdx    = 0;
@@ -38,7 +34,6 @@ let currencyCode = 'NGN';
 let currencySymbol = '₦';
 let dChart = null, bChart = null;
 
-// ── HELPERS ───────────────────────────────────────────────────────────────────
 const g  = id => document.getElementById(id);
 const gv = id => parseFloat(g(id).value) || 0;
 const esc = s => (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -60,14 +55,13 @@ function clearErrors() {
 function setLoading(isLoading) {
   const loadingScreen = document.getElementById("loading-screen");
   if (isLoading) {
-    loadingScreen.style.display = "flex"; // or "block", depending on your CSS
+    loadingScreen.style.display = "flex";
   } else {
     loadingScreen.style.display = "none";
   }
 }
 
 
-// ── PASSWORD TOGGLE ───────────────────────────────────────────────────────────
 function togglePw(inputId, btn) {
   const inp = g(inputId);
   const show = inp.type === 'password';
@@ -75,7 +69,6 @@ function togglePw(inputId, btn) {
   btn.style.color = show ? 'var(--gold)' : 'var(--muted)';
 }
 
-// ── FRIENDLY ERROR MESSAGES ───────────────────────────────────────────────────
 function friendlyError(code) {
   const map = {
     'auth/invalid-email':            'That doesn\'t look like a valid email address.',
@@ -92,7 +85,6 @@ function friendlyError(code) {
   return map[code] || 'Something went wrong. Please try again.';
 }
 
-// ── AUTH FORMS ────────────────────────────────────────────────────────────────
 function showAuth() {
   showLoading(false);
   g('app-screen').classList.add('hidden');
@@ -127,26 +119,70 @@ async function handleSignup() {
   const email = g('signup-email').value.trim();
   const pw    = g('signup-password').value;
   const conf  = g('signup-confirm').value;
-  if (!name||!email||!pw||!conf) { showError('signup-error','Please fill in all fields.'); return; }
+
+  if (!name || !email || !pw || !conf) { showError('signup-error','Please fill in all fields.'); return; }
   if (pw.length < 6) { showError('signup-error','Password must be at least 6 characters.'); return; }
-  if (pw !== conf) { showError('signup-error','Your passwords don\'t match. Please try again.'); return; }
+  if (pw !== conf) { showError('signup-error','Your passwords don\'t match.'); return; }
+
   const btn = g('signup-btn'); btn.disabled = true; btn.textContent = 'Creating account...';
   showLoading(true);
+
   try {
     const cred = await auth.createUserWithEmailAndPassword(email, pw);
     await cred.user.updateProfile({ displayName: name });
+
+    const emailParams = {
+      user_name: name,
+      user_email: email,
+      welcome_message: "Welcome to the Weekly Spending Tracker! We're excited to help you track your behavior and save more."
+    };
+
+    emailjs.send("service_dgdxl7u", "template_4svhiu6", emailParams)
+      .then(() => console.log("Welcome email sent!"))
+      .catch((err) => console.error("Email failed:", err));
+
     await cred.user.sendEmailVerification();
-    showLoading(false); btn.disabled = false; btn.textContent = 'Create Account';
-    const old = g('form-signup').querySelector('.auth-success'); if(old) old.remove();
+    showLoading(false); 
+    btn.disabled = false; 
+    btn.textContent = 'Create Account';
+
     const s = document.createElement('div'); s.className = 'auth-success';
-    s.textContent = 'Account created! We\'ve sent a confirmation email. Please verify and then sign in.';
+    s.textContent = 'Account created! Check your email to verify and then sign in.';
     g('form-signup').appendChild(s);
+    
     await auth.signOut();
   } catch(e) {
     showLoading(false); btn.disabled = false; btn.textContent = 'Create Account';
     showError('signup-error', friendlyError(e.code));
   }
 }
+
+// async function handleSignup() {
+//   clearErrors();
+//   const name = g('signup-name').value.trim();
+//   const email = g('signup-email').value.trim();
+//   const pw    = g('signup-password').value;
+//   const conf  = g('signup-confirm').value;
+//   if (!name||!email||!pw||!conf) { showError('signup-error','Please fill in all fields.'); return; }
+//   if (pw.length < 6) { showError('signup-error','Password must be at least 6 characters.'); return; }
+//   if (pw !== conf) { showError('signup-error','Your passwords don\'t match. Please try again.'); return; }
+//   const btn = g('signup-btn'); btn.disabled = true; btn.textContent = 'Creating account...';
+//   showLoading(true);
+//   try {
+//     const cred = await auth.createUserWithEmailAndPassword(email, pw);
+//     await cred.user.updateProfile({ displayName: name });
+//     await cred.user.sendEmailVerification();
+//     showLoading(false); btn.disabled = false; btn.textContent = 'Create Account';
+//     const old = g('form-signup').querySelector('.auth-success'); if(old) old.remove();
+//     const s = document.createElement('div'); s.className = 'auth-success';
+//     s.textContent = 'Account created! We\'ve sent a confirmation email. Please verify and then sign in.';
+//     g('form-signup').appendChild(s);
+//     await auth.signOut();
+//   } catch(e) {
+//     showLoading(false); btn.disabled = false; btn.textContent = 'Create Account';
+//     showError('signup-error', friendlyError(e.code));
+//   }
+// }
 
 async function handleGoogle() {
   clearErrors();
@@ -768,16 +804,12 @@ function checkWeeklyReset() {
     fetchWeek(currentKey).then(() => loadWeek());
   }
 }
-// Check every minute if week has rolled over
 setInterval(checkWeeklyReset, 60000);
 
-// ── AUTH STATE ────────────────────────────────────────────────────────────────
-// you edited from here
 setLoading(true);
 
 auth.onAuthStateChanged(user => {
-    // you edited from here
-    console.log("Auth state checked:", user);
+    // console.log("Auth state checked:", user);
   if (user) {
     loadApp(user);
   } else {
@@ -785,4 +817,9 @@ auth.onAuthStateChanged(user => {
   }
 
   setLoading(false);
+});
+window.addEventListener('load', () => {
+    if(window.lucide) {
+        lucide.createIcons();
+    }
 });
