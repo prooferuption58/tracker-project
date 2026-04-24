@@ -554,7 +554,7 @@ function checkNoBuyViolations() {
   const activeDays = [...document.querySelectorAll('.day-btn.active')].map(b => b.dataset.day);
   let violated = false;
 
-  unction checkBehavioralAlerts() {
+  function checkBehavioralAlerts() {
   const w = wData();
   const total  = gv('total-budget');
   const spent  = parseLogTotal();
