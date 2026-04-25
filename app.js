@@ -506,9 +506,8 @@ function addLogItemToSection(container, item, day) {
   row.className = 'log-item-row' + (item.type === 'impulse' ? ' impulse-row' : '');
 
   row.innerHTML = `
-    <input class="log-item-name" type="text" placeholder="What did you buy?" value="${esc(item.item||'')}">
+    <input class="log-item-name" type="text" placeholder="Item" value="${esc(item.item||'')}">
     <input class="log-item-amt" type="number" placeholder="0" value="${item.amount||''}">
-    <input class="log-item-name" type="text" placeholder="What did you buy?" value="${esc(item.item||'')}">
     <select class="log-item-select">
       <option value="needed"${item.type==='needed'?' selected':''}>Need</option>
       <option value="impulse"${item.type==='impulse'?' selected':''}>Impulse</option>
