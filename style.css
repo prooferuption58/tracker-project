@@ -345,8 +345,8 @@ html, body {
   .header-right { gap: 6px; flex-shrink: 0; }
   .currency-label { display: none; }
   #currency-select { font-size: 10px; padding: 4px 5px; max-width: 80px; }
-  .logout-top-btn { width: 28px; height: 28px; }
-  .user-avatar { width: 30px; height: 30px; font-size: 12px; }
+  .logout-top-btn { width: 26px; height: 26px; }
+  .user-avatar { width: 26px; height: 26px; font-size: 11px; }
   .user-dropdown { right: 8px; min-width: 170px; }
 
   /* Tabs */
